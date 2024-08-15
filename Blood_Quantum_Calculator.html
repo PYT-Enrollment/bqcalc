@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0080)https://pytstaging.wpengine.com/_static_pages/departments/enrollment/bqcalc.html -->
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Blood Quantum Calculator</title>
+	<style type="text/css">
+		.c {text-align:center; font-weight: bold;}
+        label {font-weight: bold;}
+	</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./lib/jquery-1.12.4.js.download"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+    
+    <script>
+        $( function() {
+        $( "#mbqslider" ).slider({
+            value:50,
+            min: 0,
+            max: 100,
+            step: 6.25,
+            slide: function( event, ui ) {
+                    $( "#mothersbq" ).val( convertToFraction(ui.value) );
+                },
+            stop: function( event, ui ) {
+                    calculate();
+                }
+            });
+
+            $( "#mothersbq" ).val( convertToFraction($( "#mbqslider" ).slider( "value" ))  );
+        } );
+
+        $( function() {
+        $( "#fbqslider" ).slider({
+            value:50,
+            min: 0,
+            max: 100,
+            step: 6.25,
+            slide: function( event, ui ) {
+                    $( "#fathersbq" ).val( convertToFraction(ui.value)  );
+                },
+           stop: function( event, ui ) {
+                    calculate();
+                }
+            });
+
+            $( "#fathersbq" ).val( convertToFraction($( "#fbqslider" ).slider( "value" ))  );
+        } );
+
+        calculate();
+
+    </script>
+
+	<script language="JavaScript" type="text/javascript">
+		var bqYes = "#99ff99";
+		var bqNo = "#ff6666";
+		var bqErr = "#ffffff";
+		var msgYes = "Meets minimum BQ";
+		var msgNo = "Does not meet minimum BQ";
+        
+        // Set targetBQ to the minimum qualification percentage 
+        var targetBQ = 25;
+        
+        // Set name of tribe
+        var tribe = "Yaqui";
+		
+		
+		/*
+		***************************************************************************************
+		*  Function to calculate blood quantum.
+		***************************************************************************************
+		*/
+		function calculate() {
+            
+			var mom = $( "#mbqslider" ).slider( "value" );
+			var dad = $( "#fbqslider" ).slider( "value" );
+
+            var q = mom/2 + dad/2;
+            if ( q >= targetBQ ) {
+                showMsg(msgYes);
+                document.getElementById("t").style.background = bqYes;
+            } else {
+                showMsg(msgNo);
+                document.getElementById("t").style.background = bqNo;
+            }
+            document.getElementById("childsbq").value = convertToFraction(q);
+            //alert(q);
+		}
+		
+		
+		
+		/*
+		***************************************************************************************
+		*  Function to display message.
+		***************************************************************************************
+		*/
+		function showMsg(m) { document.getElementById("msg").innerHTML = m; }
+	
+	
+	
+		/*
+		***************************************************************************************
+		*  Function to calculate fraction into reduced form.
+		***************************************************************************************
+		*/
+		function convertToFraction(n) {
+			// Calculate fraction into reduced form
+			var fraction = '';
+						
+            if ( n == 3.125 ) { fraction = '1/32';
+            } else if ( n == 6.25 ) { fraction = '1/16';
+            } else if ( n == 9.375 ) { fraction = '3/32';
+            } else if ( n == 12.5 ) { fraction = '1/8';
+            } else if ( n == 15.625 ) { fraction = '5/32';
+            } else if ( n == 18.75 ) { fraction = '3/16';
+            } else if ( n == 21.875 ) { fraction = '7/32';
+            } else if ( n == 25 ) { fraction = '1/4';
+            } else if ( n == 28.125 ) { fraction = '9/32';
+            } else if ( n == 31.25 ) { fraction = '5/16';
+            } else if ( n == 34.375 ) { fraction = '11/32';
+            } else if ( n == 37.5 ) { fraction = '3/8';
+            } else if ( n == 40.625 ) { fraction = '13/32';
+            } else if ( n == 43.75 ) { fraction = '7/16';
+            } else if ( n == 46.875 ) { fraction = '15/32';
+            } else if ( n == 50 ) { fraction = '1/2';
+            } else if ( n == 53.125 ) { fraction = '17/32';
+            } else if ( n == 56.25 ) { fraction = '9/16';
+            } else if ( n == 59.375 ) { fraction = '19/32';
+            } else if ( n == 62.5 ) { fraction = '5/8';
+            } else if ( n == 65.625 ) { fraction = '21/32';
+            } else if ( n == 68.75 ) { fraction = '11/16';
+            } else if ( n == 71.875 ) { fraction = '23/32';
+            } else if ( n == 75 ) { fraction = '3/4';
+            } else if ( n == 78.125 ) { fraction = '25/32';
+            } else if ( n == 81.25 ) { fraction = '13/16';
+            } else if ( n == 84.375 ) { fraction = '27/32';
+            } else if ( n == 87.5 ) { fraction = '7/8';
+            } else if ( n == 90.625 ) { fraction = '29/32';
+            } else if ( n == 93.75 ) { fraction = '15/16';
+            } else if ( n == 96.875 ) { fraction = '31/32';
+            } else if ( n == 100 ) { fraction = 'Full';
+            } else { fraction = "None"; }
+            
+			return " " + fraction;
+		}
+	</script>
+<script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head>
+
+<body data-new-gr-c-s-check-loaded="14.1078.0" data-gr-ext-installed="">
+<div style="background:#99ff99; border:solid thin black; width: 380px; padding: 10 10 10 10;" id="t">
+    <h2 class="c">Blood Quantum Calculator</h2>
+    <p style="white-space: nowrap">
+      <label for="mothersbq">Mother's Blood Quantum:</label>
+      <input type="text" id="mothersbq" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+    </p>
+    <div id="mbqslider" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 50%;"></span></div>
+
+    <hr>
+    
+    <p style="white-space: nowrap">
+      <label for="fathersbq">Father's Blood Quantum:</label>
+      <input type="text" id="fathersbq" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+    </p>
+    <div id="fbqslider" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 50%;"></span></div>
+
+    <hr>
+    
+    <p style="white-space: nowrap">
+      <label for="chilsbq">Child's Blood Quantum:</label>
+      <input type="text" id="childsbq" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+    </p>
+    <div id="cbqgraph"></div>
+    <div id="msg" align="center" class="c">&nbsp;</div>
+    <div align="center"><p>1/4 is the minimum <span id="tribeText"> </span> blood<br>
+        quantum requirement.</p></div>
+</div>
+<script>
+    document.getElementById("tribeText").innerText = tribe;
+</script>
